@@ -2,12 +2,12 @@ package com.geekbrains.tests
 
 import com.geekbrains.tests.presenter.details.DetailsPresenter
 import com.geekbrains.tests.view.details.ViewDetailsContract
-import com.nhaarman.mockito_kotlin.times
-import com.nhaarman.mockito_kotlin.verify
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 
 class DetailsPresenterTest {
 
