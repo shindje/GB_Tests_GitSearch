@@ -34,6 +34,8 @@ internal class SearchPresenter internal constructor(
         viewContract = null
     }
 
+    override fun getViewContract() = viewContract
+
     override fun handleGitHubResponse(response: Response<SearchResponse?>?) {
         viewContract?.displayLoading(false)
         if (response != null && response.isSuccessful) {

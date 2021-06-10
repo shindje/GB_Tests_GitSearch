@@ -6,6 +6,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.geekbrains.tests.model.SearchResponse
 import com.geekbrains.tests.model.SearchResult
+import com.geekbrains.tests.presenter.search.PresenterSearchContract
 import com.geekbrains.tests.presenter.search.SearchPresenter
 import com.geekbrains.tests.repository.GitHubRepository
 import com.geekbrains.tests.view.search.MainActivity
@@ -181,5 +182,23 @@ class SearchPresenterTest {
     fun searchPresenter_onDetachCalls() {
         scenario.moveToState(Lifecycle.State.DESTROYED)
         verify(presenterMocked, times(1)).onDetach()
+    }
+
+    @Test
+    fun searchPresenter_onAttachSetActivity() {
+        scenario.recreate()
+        scenario.onActivity {
+            assertEquals(it.getPresenter().getViewContract(), it)
+        }
+    }
+
+    @Test
+    fun searchPresenter_onDetachClearActivity() {
+        var testPresenter : PresenterSearchContract? = null
+        scenario.onActivity {
+            testPresenter = it.getPresenter()
+        }
+        scenario.close()
+        assertNull(testPresenter!!.getViewContract())
     }
 }
