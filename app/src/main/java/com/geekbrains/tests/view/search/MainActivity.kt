@@ -20,7 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity(), ViewSearchContract {
 
     private val adapter = SearchResultAdapter()
-    private var presenter: PresenterSearchContract = SearchPresenter(createRepository())
+    private val presenter: PresenterSearchContract = SearchPresenter(createRepository())
     private var totalCount: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
