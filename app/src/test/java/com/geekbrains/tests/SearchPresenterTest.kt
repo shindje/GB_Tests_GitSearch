@@ -36,9 +36,6 @@ class SearchPresenterTest {
 
     private lateinit var scenario: ActivityScenario<MainActivity>
 
-    @Mock
-    private lateinit var presenterMocked: SearchPresenter
-
     @Before
     fun setUp() {
         //Обязательно для аннотаций "@Mock"
@@ -49,9 +46,6 @@ class SearchPresenterTest {
         presenter.onAttach(viewContract)
 
         scenario = ActivityScenario.launch(MainActivity::class.java)
-        scenario.onActivity {
-            it.setPresenter(presenterMocked)
-        }
     }
 
     @Test //Проверим вызов метода searchGitHub() у нашего Репозитория
@@ -169,19 +163,6 @@ class SearchPresenterTest {
 
         //Убеждаемся, что ответ от сервера обрабатывается корректно
         verify(viewContract, times(1)).displaySearchResults(searchResults, 101)
-    }
-
-    @Test
-    fun searchPresenter_onAttachCalls() {
-        scenario.onActivity {
-            verify(presenterMocked, times(1)).onAttach(it)
-        }
-    }
-
-    @Test
-    fun searchPresenter_onDetachCalls() {
-        scenario.moveToState(Lifecycle.State.DESTROYED)
-        verify(presenterMocked, times(1)).onDetach()
     }
 
     @Test

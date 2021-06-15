@@ -44,12 +44,6 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
 
     internal fun getPresenter() : PresenterSearchContract = presenter
 
-    internal fun setPresenter(p_presenter: PresenterSearchContract) {
-        presenter.onDetach()
-        presenter = p_presenter
-        presenter.onAttach(this)
-    }
-
     private fun setRecyclerView() {
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
