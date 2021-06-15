@@ -20,13 +20,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity(), ViewSearchContract {
 
     private val adapter = SearchResultAdapter()
-    private val presenter: PresenterSearchContract = SearchPresenter(this, createRepository())
+    private var presenter: PresenterSearchContract = SearchPresenter(createRepository())
     private var totalCount: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setUI()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.onAttach(this)
     }
 
     private fun setUI() {
@@ -36,6 +41,8 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
         setQueryListener()
         setRecyclerView()
     }
+
+    internal fun getPresenter() : PresenterSearchContract = presenter
 
     private fun setRecyclerView() {
         recyclerView.setHasFixedSize(true)
@@ -95,6 +102,11 @@ class MainActivity : AppCompatActivity(), ViewSearchContract {
         } else {
             progressBar.visibility = View.GONE
         }
+    }
+
+    override fun onStop() {
+        presenter.onDetach()
+        super.onStop()
     }
 
     companion object {
