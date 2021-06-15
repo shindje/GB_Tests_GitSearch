@@ -26,8 +26,8 @@ internal class SearchPresenter internal constructor(
         repository.searchGithub(searchQuery, this)
     }
 
-    override fun onAttach(p_viewContract: ViewContract) {
-        viewContract = p_viewContract as ViewSearchContract
+    override fun onAttach(pViewContract: ViewSearchContract) {
+        viewContract = pViewContract
     }
 
     override fun onDetach() {
