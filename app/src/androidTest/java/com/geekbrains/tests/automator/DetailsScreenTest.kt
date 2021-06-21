@@ -29,10 +29,8 @@ class DetailsScreenTest {
         intent!!.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         context.startActivity(intent)
         uiDevice.wait(Until.hasObject(By.pkg(packageName).depth(0)), TIMEOUT)
-    }
 
-    @Test
-    fun test_DetailsScreen_CorrectSearchResultCount() {
+        //Ищем algol
         val editText = uiDevice.findObject(By.res(packageName, "searchEditText"))
         editText.text = "algol"
         val searchBtn: UiObject2 = uiDevice.findObject(
@@ -47,6 +45,7 @@ class DetailsScreenTest {
             Until.findObject(By.res(packageName, "totalCountTextView")), TIMEOUT
         )
 
+        //Перехожим на DetailsActivity
         val toDetails: UiObject2 = uiDevice.findObject(
             By.res(
                 packageName,
@@ -54,13 +53,50 @@ class DetailsScreenTest {
             )
         )
         toDetails.click()
+    }
 
+    @Test
+    fun test_DetailsScreen_CorrectSearchResultCount() {
         val changedText =
             uiDevice.wait(
                 Until.findObject(By.res(packageName, "totalCountTextView")),
                 TIMEOUT
             )
         Assert.assertEquals(changedText.text, "Number of results: $ALGOL_REPS_COUNT")
+    }
+
+    @Test
+    fun test_DetailsScreen_ButtonIncrement_IsWorking() {
+        val incrementBtn =
+            uiDevice.wait(
+                Until.findObject(By.res(packageName, "incrementButton")),
+                TIMEOUT
+            )
+        incrementBtn.click()
+
+        val changedText =
+            uiDevice.wait(
+                Until.findObject(By.res(packageName, "totalCountTextView")),
+                TIMEOUT
+            )
+        Assert.assertEquals(changedText.text, "Number of results: ${ALGOL_REPS_COUNT + 1}")
+    }
+
+    @Test
+    fun test_DetailsScreen_ButtonDecrement_IsWorking() {
+        val decrementBtn =
+            uiDevice.wait(
+                Until.findObject(By.res(packageName, "decrementButton")),
+                TIMEOUT
+            )
+        decrementBtn.click()
+
+        val changedText =
+            uiDevice.wait(
+                Until.findObject(By.res(packageName, "totalCountTextView")),
+                TIMEOUT
+            )
+        Assert.assertEquals(changedText.text, "Number of results: ${ALGOL_REPS_COUNT - 1}")
     }
 
     companion object {

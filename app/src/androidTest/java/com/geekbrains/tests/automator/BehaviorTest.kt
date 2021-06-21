@@ -112,6 +112,25 @@ class BehaviorTest {
         Assert.assertEquals(changedText.text, "Number of results: 0")
     }
 
+    //Убеждаемся, что поиск не работает, если не заполнена строка поиска
+    @Test
+    fun test_SearchIsNegative() {
+        val searchBtn: UiObject2 = uiDevice.findObject(
+            By.res(
+                packageName,
+                "searchButton"
+            )
+        )
+        searchBtn.click()
+
+        val changedText =
+            uiDevice.wait(
+                Until.findObject(By.res(packageName, "totalCountTextView")),
+                TIMEOUT
+            )
+        Assert.assertNull(changedText)
+    }
+
     companion object {
         private const val TIMEOUT = 5000L
     }
