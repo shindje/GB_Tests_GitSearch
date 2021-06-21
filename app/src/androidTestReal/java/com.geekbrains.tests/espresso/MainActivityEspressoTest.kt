@@ -33,7 +33,7 @@ class MainActivityEspressoTest {
         onView(withId(R.id.searchEditText)).perform(pressImeActionButton())
 
         onView(isRoot()).perform(delay())
-        onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 2424")))
+        onView(withId(R.id.totalCountTextView)).check(matches(withText("Number of results: 2430")))
     }
 
     private fun delay(): ViewAction? {
