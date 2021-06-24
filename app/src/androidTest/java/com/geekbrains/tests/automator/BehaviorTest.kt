@@ -10,6 +10,8 @@ import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiObject2
 import androidx.test.uiautomator.Until
+import com.geekbrains.tests.TEST_NUMBER_OF_RESULTS_ZERO
+import com.geekbrains.tests.TEST_NUMBER_UI_AUTOMATOR
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -81,7 +83,7 @@ class BehaviorTest {
             )
         //Убеждаемся, что сервер вернул корректный результат. Обратите внимание, что количество
         //результатов может варьироваться во времени, потому что количество репозиториев постоянно меняется.
-        Assert.assertEquals(changedText.text.toString(), "Number of results: 674")
+        Assert.assertEquals(changedText.text.toString(), "Number of results: $TEST_NUMBER_UI_AUTOMATOR")
     }
 
     //Убеждаемся, что DetailsScreen открывается
@@ -109,7 +111,7 @@ class BehaviorTest {
         //так как мы кликаем по кнопке не отправляя никаких поисковых запросов.
         //Чтобы проверить отображение определенного количества репозиториев,
         //вам в одном и том же методе нужно отправить запрос на сервер и открыть DetailsScreen.
-        Assert.assertEquals(changedText.text, "Number of results: 0")
+        Assert.assertEquals(changedText.text, TEST_NUMBER_OF_RESULTS_ZERO)
     }
 
     //Убеждаемся, что поиск не работает, если не заполнена строка поиска
