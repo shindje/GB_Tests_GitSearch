@@ -50,6 +50,21 @@ android {
             buildConfigField "String", "TYPE", '"REAL"'
         }
     }
+
+    sourceSets {
+        androidTest {
+            java.srcDirs += "src/sharedTestData/java"
+        }
+        androidTestFake {
+            java.srcDirs += "src/sharedTestData/java"
+        }
+        androidTestReal {
+            java.srcDirs += "src/sharedTestData/java"
+        }
+        test {
+            java.srcDirs += "src/sharedTestData/java"
+        }
+    }
 }
 
 dependencies {
@@ -80,4 +95,5 @@ dependencies {
     // UiAutomator Testing
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation 'org.hamcrest:hamcrest-integration:1.3'
+    androidTestImplementation 'androidx.test:rules:1.4.0-beta02'
 }

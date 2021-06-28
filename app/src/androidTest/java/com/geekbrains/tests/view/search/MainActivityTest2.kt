@@ -1,16 +1,19 @@
 package com.geekbrains.tests.view.search
 
+
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
-import androidx.test.ext.junit.rules.ActivityScenarioRule
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.rule.ActivityTestRule
+import androidx.test.runner.AndroidJUnit4
 import com.geekbrains.tests.R
-import com.geekbrains.tests.TEST_NUMBER_OF_RESULTS_PLUS_1
+import com.geekbrains.tests.TEST_NUMBER_ALGOL
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -21,32 +24,32 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class MainActivityTest {
+class MainActivityTest2 {
 
     @Rule
     @JvmField
-    var mActivityTestRule = ActivityScenarioRule(MainActivity::class.java)
+    var mActivityTestRule = ActivityTestRule(MainActivity::class.java)
 
     @Test
-    fun mainActivityTest() {
-        val materialButton = onView(
+    fun mainActivityTest2() {
+        val appCompatEditText = onView(
             allOf(
-                withId(R.id.toDetailsActivityButton), withText("to details"),
+                withId(R.id.searchEditText),
                 childAtPosition(
                     childAtPosition(
                         withId(android.R.id.content),
                         0
                     ),
-                    3
+                    1
                 ),
                 isDisplayed()
             )
         )
-        materialButton.perform(click())
+        appCompatEditText.perform(replaceText("algol"), closeSoftKeyboard())
 
-        val materialButton2 = onView(
+        val materialButton = onView(
             allOf(
-                withId(R.id.incrementButton), withText("+"),
+                withId(R.id.searchButton), withText("Search"),
                 childAtPosition(
                     childAtPosition(
                         withId(android.R.id.content),
@@ -57,25 +60,18 @@ class MainActivityTest {
                 isDisplayed()
             )
         )
-        materialButton2.perform(click())
+        materialButton.perform(click())
+
+        onView(isRoot()).perform(delay())
 
         val textView = onView(
             allOf(
-                withId(R.id.totalCountTextView), withText(TEST_NUMBER_OF_RESULTS_PLUS_1),
+                withId(R.id.totalCountTextView), withId(R.id.totalCountTextView),
                 withParent(withParent(withId(android.R.id.content))),
                 isDisplayed()
             )
         )
-        textView.check(matches(withText(TEST_NUMBER_OF_RESULTS_PLUS_1)))
-
-        val button = onView(
-            allOf(
-                withId(R.id.incrementButton), withText("+"),
-                withParent(withParent(withId(android.R.id.content))),
-                isDisplayed()
-            )
-        )
-        button.check(matches(isDisplayed()))
+        textView.check(matches(withText("Number of results: $TEST_NUMBER_ALGOL")))
     }
 
     private fun childAtPosition(
@@ -92,6 +88,16 @@ class MainActivityTest {
                 val parent = view.parent
                 return parent is ViewGroup && parentMatcher.matches(parent)
                         && view == parent.getChildAt(position)
+            }
+        }
+    }
+
+    private fun delay(): ViewAction? {
+        return object : ViewAction {
+            override fun getConstraints(): Matcher<View> = isRoot()
+            override fun getDescription(): String = "wait for $2 seconds"
+            override fun perform(uiController: UiController, v: View?) {
+                uiController.loopMainThreadForAtLeast(2000)
             }
         }
     }
